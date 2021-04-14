@@ -1,0 +1,21 @@
+sudo apt-get install -y mysql
+export MYSQL_HOST=<your-endpoint>
+mysql -u <user> -p
+
+CREATE USER 'wordpress' IDENTIFIED BY 'wordpress-pass';
+GRANT ALL PRIVILEGES ON wordpress.* TO wordpress;
+FLUSH PRIVILEGES;
+Exit
+//You should use a better password than “wordpress-pass” to secure your database.//
+
+//install Apache on your EC2 instance//
+
+sudo apt-get install -y apache2
+sudo systemctl start apache2
+
+//Installing Additional PHP Extensions//
+sudo apt update
+sudo apt install php libapache2-mod-php php-mysql
+sudo apt install php-curl php-gd php-xml php-mbstring  php-xmlrpc php-zip php-soap php-intl
+
+//Downloading WordPress//
