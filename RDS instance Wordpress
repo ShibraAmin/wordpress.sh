@@ -1,4 +1,4 @@
-sudo apt-get install -y mysql
+sudo apt-get install -y mysql-client
 export MYSQL_HOST=<your-endpoint>
 mysql -u <user> -p
 
