@@ -7,8 +7,8 @@ sudo apt-get install -y mysql-client
 export MYSQL_HOST=<your-endpoint>
 mysql -u <user> -p
 
-CREATE USER 'wordpress' IDENTIFIED BY 'wordpress-pass';
-GRANT ALL PRIVILEGES ON wordpress.* TO wordpress;
+CREATE USER 'wordpress'@'localhost' IDENTIFIED BY 'wordpress-pass';
+GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpress'@'localhost';
 FLUSH PRIVILEGES;
 Exit
 //You should use a better password than “wordpress-pass” to secure your database.//
@@ -22,6 +22,11 @@ sudo systemctl start apache2
 sudo apt update
 sudo apt install php libapache2-mod-php php-mysql
 sudo apt install php-curl php-gd php-xml php-mbstring  php-xmlrpc php-zip php-soap php-intl
+
+sudo nano /etc/apache2/mods-enabled/dir.conf
+<IfModule mod_dir.c>
+    DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
+</IfModule>
 
 //Downloading WordPress//
 wget https://wordpress.org/latest.tar.gz
@@ -64,5 +69,7 @@ define( 'LOGGED_IN_SALT',   'put your unique phrase here' );
 define( 'NONCE_SALT',       'put your unique phrase here' );
 
 https://api.wordpress.org/secret-key/1.1/salt/   /// link to generate phrase
-
+//save it//
+sudo mv -f wordpress/* /var/www/html
+sudo chown -R www-data:www-data /var/www/html
 http://localhost/wp-login.php
