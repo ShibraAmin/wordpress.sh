@@ -29,14 +29,6 @@ sudo nano /etc/apache2/mods-enabled/dir.conf
     DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
 </IfModule>
 
-//Downloading WordPress//
-wget https://wordpress.org/latest.tar.gz
-tar -xzf latest.tar.gz
-$ ls
-latest.tar.gz  wordpress
-cd wordpress
-cp wp-config-sample.php wp-config.php
-nano wp-config.php
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
@@ -50,7 +42,7 @@ define( 'DB_PASSWORD', 'password_here' );
 
 /** MySQL hostname */
 define( 'DB_HOST', 'localhost' );
-
+define('FS_METHOD', 'direct');
 /**#@+
  * Authentication Unique Keys and Salts.
  *
@@ -71,6 +63,19 @@ define( 'NONCE_SALT',       'put your unique phrase here' );
 
 https://api.wordpress.org/secret-key/1.1/salt/   /// link to generate phrase
 //save it//
-sudo mv -f wordpress/* /var/www/html
-sudo chown -R www-data:www-data /var/www/html
+//Downloading WordPress//
+cd /tmp
+curl -LO https://wordpress.org/latest.tar.gz
+tar xzvf latest.tar.gz
+cp /tmp/wordpress/wp-config-sample.php /tmp/wordpress/wp-config.php
+sudo cp -a /tmp/wordpress/. /var/www/wordpress
+sudo chown -R www-data:www-data /var/www/wordpress
+
+then just go to- 
+cd /etc/apache2/sites-available
+nano 000default...(see in ls)
+edit the root to
+/var/www/wordpress
+
 http://localhost/wp-login.php
+https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-lemp-on-ubuntu-18-04
